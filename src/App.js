@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Create from "./pages/Create"
 import Update from "./pages/Update"
 import Review from './pages/Review';
+import Propoganda from './pages/Propoganda';
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/review/:id" element={<Review />} />
+        <Route path="/review/:postId" element={<Review />} />
+        <Route path="/propoganda/:postId" element={<Propoganda />} />
         <Route path="/create" element={<Create />} />
         <Route path="/:id" element={<Update />} />
       </Routes>
