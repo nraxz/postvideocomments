@@ -1,5 +1,6 @@
 import supabase from "../config/supabaseClient";
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [fetchError, setFetchError] = useState(null);
@@ -46,7 +47,8 @@ const Home = () => {
                   <p className="card-text">{story.details}</p>
                 </div>
                 <div className="card-footer">
-                <a href="#" class="btn btn-primary">तपाइँलाइ के लाग्छ?</a>
+                <Link to={`/review/${story.id}`} className="btn btn-primary">तपाइँलाइ के लाग्छ?</Link>
+              
                 </div>
               </div>
             </div>
