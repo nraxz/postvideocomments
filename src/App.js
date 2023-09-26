@@ -5,7 +5,8 @@ import Home from "./pages/Home"
 import Create from "./pages/Create"
 import Update from "./pages/Update"
 import Review from './pages/Review';
-import Propoganda from './pages/Propoganda';
+import Detail from './pages/Detail';
+import Playback from './pages/Playback';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/review/:postId" element={<Review />} />
-        <Route path="/propoganda/:postId" element={<Propoganda />} />
+        <Route path="/detail/:postId" element={<Detail />} />
+        <Route path="/playback/:videoName" element={<Playback />} />
         <Route path="/create" element={<Create />} />
         <Route path="/:id" element={<Update />} />
       </Routes>

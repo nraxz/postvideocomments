@@ -8,18 +8,39 @@ const Home = () => {
 
   useEffect(() => {
     const fetchStories = async () => {
-      const { data, error } = await supabase
-        .from('stories')
-        .select();
+      try {
+        const { data: storiesData, error: storiesError } = await supabase
+          .from('stories')
+          .select()
+          .eq('status', 'Active');
 
-      if (error) {
+        if (storiesError) {
+          throw storiesError;
+        }
+
+        // Fetch review counts for each story
+        const storiesWithReviewCounts = await Promise.all(
+          storiesData.map(async (story) => {
+            const { data: reviewsData, error: reviewsError } = await supabase
+              .from('reviews')
+              .select('id')
+              .eq('post_id', story.id);
+
+            if (reviewsError) {
+              throw reviewsError;
+            }
+
+            story.reviewCount = reviewsData.length;
+            return story;
+          })
+        );
+
+        setStories(storiesWithReviewCounts);
+        setFetchError(null);
+      } catch (error) {
         setFetchError('Could not fetch the stories');
         setStories(null);
-        console.log(error);
-      }
-      if (data) {
-        setStories(data);
-        setFetchError(null);
+        console.error(error);
       }
     };
 
@@ -47,8 +68,10 @@ const Home = () => {
                   <p className="card-text">{story.details}</p>
                 </div>
                 <div className="card-footer">
-                <Link to={`/review/${story.id}`} className="btn btn-primary">तपाइँलाइ के लाग्छ?</Link>
-              
+                  <Link to={`/review/${story.id}`} className="btn btn-primary">तपाइँलाइ के लाग्छ?</Link>
+                  <Link to={`/detail/${story.id}`} className="btn btn-secondary ml-2">
+                    {story.reviewCount > 0 ? `${story.reviewCount} Reviews` : 'View'}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -57,7 +80,6 @@ const Home = () => {
       )}
     </div>
   );
-  
 };
 
 export default Home;

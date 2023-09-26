@@ -13,7 +13,7 @@ const Review = () => {
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setVideoStream(stream);
 
       const recorder = new MediaRecorder(stream);
@@ -58,7 +58,7 @@ const Review = () => {
       {isRecording ? (
         <div>
           <div>
-            <CameraComponent ref={videoRef} autoPlay muted />
+          {videoStream &&<CameraComponent ref={videoRef} autoPlay/>}
           </div>
           <button onClick={stopRecording}>Stop Recording</button>
         </div>
